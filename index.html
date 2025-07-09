@@ -56,7 +56,7 @@
     .bee-fall {
       position: absolute;
       font-size: 28px;
-      animation: fall 4s linear forwards;
+      animation: fall 3s linear forwards;
       pointer-events: none;
     }
 
@@ -78,7 +78,7 @@
       font-weight: bold;
       color: #ff69b4;
       font-family: 'Courier New', Courier, monospace;
-      animation: explode 3s ease-out forwards;
+      animation: explode 5s ease-out forwards;
       pointer-events: none;
       white-space: nowrap;
     }
@@ -94,10 +94,14 @@
 
 <canvas id="matrix"></canvas>
 
-<div id="phrase" class="phrase">MI LISS</div>
+<div id="phrase" class="phrase"><span style="font-size: 2em;">🐝</span> <span style="font-size: 1.5em;">MI LISS</span></div>
+
+<!-- 🎵 Audio que inicia con el primer clic -->
+<audio id="audio" src="audio1.mp3" loop></audio>
 
 <script>
 const phrase = document.getElementById('phrase');
+const audio = document.getElementById('audio');
 let stage = 0;
 let finalStage = false;
 
@@ -137,12 +141,12 @@ function createFallingElement() {
   } else {
     el.className = "bee-fall";
     el.innerText = "🐝";
+    el.style.fontSize = "40px"; // aumento el tamaño de la abeja aquí
   }
   el.style.left = Math.random() * window.innerWidth + "px";
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3000);
+  setTimeout(() => el.remove(), 6000);
 }
-
 // Explosión de abejas desde el centro
 function releaseBees() {
   for (let i = 0; i < 20; i++) {
@@ -158,25 +162,31 @@ function releaseBees() {
       { transform: 'translate(0, 0)' },
       { transform: `translate(${x}px, ${y}px)` }
     ], {
-      duration: 2000,
+      duration: 3000,
       easing: 'linear'
     });
-    setTimeout(() => bee.remove(), 2000);
+    setTimeout(() => bee.remove(), 6000);
   }
 }
 
 // Frases estilo fuegos artificiales
 const fireworkPhrases = [
-  "💖 ERES INCREÍBLE 💖",
+  "💖 INCREÍBLE 💖",
   "✨ FANTASTICA ✨",
-  "🌟 BRILLAS MUCHO 🌟",
+  "🌟 FABULOSA 🌟",
   "🌈 SIEMPRE HERMOSA 🌈",
-  "ERES EESPECIAL",
-  "CAPAZ DE TODO",
-  "IRREMPLAZABLE",
-  "FUERTE Y VALIENTE",
-  "UNA LUZ",
-  "UNICA",
+  "🖤ERES ESPECIAL🖤",
+  "🐝CAPAZ DE TODO🐝",
+  "🖤IRREMPLAZABLE🖤",
+  "🐝FUERTE Y VALIENTE🐝",
+  "🌟TALENTOSA🌟",
+  "🖤UNA LUZ🖤",
+  "🐝UNICA🖤",
+  "🖤🐝🖤",
+  "🐝AMABLE Y HONESTA🖤",
+  "🌟ERES UNA INSPIRACION🌈",
+  "💖POSITIVA Y BRILLANTE",
+  "🖤MI BAILE INOLVIDABLE🔥",
   "🔥 MI LISS 🔥"
 ];
 
@@ -191,66 +201,85 @@ function fireworksAt(x, y) {
     word.style.left = `${x + offsetX}px`;
     word.style.top = `${y + offsetY}px`;
     document.body.appendChild(word);
-    setTimeout(() => word.remove(), 2000);
+    setTimeout(() => word.remove(), 3000);
   }
 }
 
 // Frase por etapas
 phrase.addEventListener("click", () => {
   if (stage === 0) {
+    audio.play(); // 🔊 Iniciar música
     releaseBees();
-    phrase.innerText = "RECUERDA QUE ERES";
+    phrase.innerText = "🖤UN PEQUEÑO RECORDATORIO DE LA GRAN PERSONA QUE HAS DEMOSTRADO SER🖤";
     stage++;
-  } else if (stage === 1) {
+
+    // ⏱️ Autoclick después de 3s para pasar a siguiente etapa
+    setTimeout(() => {
+      phrase.click();
+    }, 17000);
+
+    } else if (stage === 1) {
     for (let i = 0; i < 80; i++) createFallingElement();
     setTimeout(() => {
-      phrase.innerText = "ESPECIAL";
+      phrase.innerText = "🐝DESEANDOTE EXITOS A DONDE VAYAS, CON EXPERIAS UNICAS POR LLEGAR🐝...";
       phrase.classList.add("pink-matrix");
       stage++;
-    }, 2000);
-  } else if (stage === 2) {
+
+      // ⏱️ Autoclick después de 3s para pasar al final
+      setTimeout(() => {
+        phrase.click();
+      }, 5000);
+    }, 0);
+
+    } else if (stage === 2) {
+    for (let i = 0; i < 80; i++) createFallingElement();
+    setTimeout(() => {
+      phrase.innerText = "🐝TUS HABILIDADES Y CUALIDADES UNICAS, HACIENDOTE ESPECIAL Y TAMBIEN🐝...";
+      phrase.classList.add("pink-matrix");
+      stage++;
+
+      // ⏱️ Autoclick después de 3s para pasar al final
+      setTimeout(() => {
+        phrase.click();
+      }, 5000);
+
+    }, 17000);
+
+  } else if (stage === 3) {
     phrase.remove();
     finalStage = true;
     startAutoClick();
   }
 });
 
-// Click final para lanzar frases
-document.body.addEventListener("click", (e) => {
-  if (finalStage) {
-    fireworksAt(e.clientX, e.clientY);
-  }
-});
-
-// 🐝 Estela de abejas más separadas
+// Estela de abejas con el mouse
 let lastBeeTime = 0;
 document.addEventListener("mousemove", (e) => {
   const now = Date.now();
-  if (now - lastBeeTime > 50) { // cada 120ms
+  if (now - lastBeeTime > 50) {
     const bee = document.createElement("div");
     bee.className = "bee-follow";
     bee.innerText = "🐝";
     bee.style.left = e.clientX + "px";
     bee.style.top = e.clientY + "px";
     document.body.appendChild(bee);
-    setTimeout(() => bee.remove(), 500);
+    setTimeout(() => bee.remove(), 900);
     lastBeeTime = now;
   }
 });
 
-// Autoclick function: simula clics en posiciones aleatorias periódicamente
+// Auto fuegos artificiales
 function startAutoClick() {
   setInterval(() => {
-    if (!finalStage) return;
     const x = Math.random() * window.innerWidth;
     const y = Math.random() * window.innerHeight;
     fireworksAt(x, y);
-  }, 60); // cada 1.5 segundos dispara las frases automáticamente
+  }, 60);
 }
 
-// Inicios
-setInterval(drawMatrix, 50);
-setInterval(createFallingElement, 100);
+
+setInterval(drawMatrix, 70);
+setInterval(createFallingElement, 30);
 </script>
 
 </body>
