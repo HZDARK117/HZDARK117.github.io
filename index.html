@@ -172,6 +172,8 @@ function releaseBees() {
 // Frases estilo fuegos artificiales
 const fireworkPhrases = [
   "💖 INCREÍBLE 💖",
+  "COQUETA🖤",
+  "🐝PERCEBERANTE🐝",
   "✨ FANTASTICA ✨",
   "🌟 FABULOSA 🌟",
   "🌈 SIEMPRE HERMOSA 🌈",
@@ -186,6 +188,8 @@ const fireworkPhrases = [
   "🐝AMABLE Y HONESTA🖤",
   "🌟ERES UNA INSPIRACION🌈",
   "💖POSITIVA Y BRILLANTE",
+  "SORPRENDENTE Y CREATIVA",
+  "🖤LOS OJITOS HERMOSOS🖤",
   "🖤MI BAILE INOLVIDABLE🔥",
   "🔥 MI LISS 🔥"
 ];
@@ -216,19 +220,19 @@ phrase.addEventListener("click", () => {
     // ⏱️ Autoclick después de 3s para pasar a siguiente etapa
     setTimeout(() => {
       phrase.click();
-    }, 18000);
+    }, 14000);
 
     } else if (stage === 1) {
     for (let i = 0; i < 80; i++) createFallingElement();
     setTimeout(() => {
-      phrase.innerText = "🐝DESEANDOTE EXITOS A DONDE VAYAS, CON EXPERIAS UNICAS POR LLEGAR🐝...";
+      phrase.innerText = "🐝DESEANDOTE EXITOS A DONDE VAYAS, CON EXPERIENCIAS UNICAS POR LLEGAR🐝...";
       phrase.classList.add("pink-matrix");
       stage++;
 
       // ⏱️ Autoclick después de 3s para pasar al final
       setTimeout(() => {
         phrase.click();
-      }, 5000);
+      }, 6000);
     }, 0);
 
     } else if (stage === 2) {
